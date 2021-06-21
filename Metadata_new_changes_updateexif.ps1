@@ -167,8 +167,6 @@ Function Update-ExifDateTaken {
             else{
             return $false
             }
-    
-                
             # Finally, if requested, decorate the path object with the EXIF dates and pass it on...
     
             #If ($PassThru) {
@@ -312,7 +310,7 @@ foreach ($file in $Path){
                 $OldDateModified = [DateTime]($dir.GetDetailsOf($dir.ParseName($_.Name),3) -replace $CharWhiteList)
 
                 $ErrorActionPreference = "Continue" 
-                           
+                $setdatetakenstatus = "Date Taken $DateTaken already present in the $filename."         
             }
             catch{
                 $DateTaken = "No Date Available"
@@ -334,12 +332,24 @@ foreach ($file in $Path){
                                     #if (($DateTaken -ne $null) -and ($DateTaken.gettype().name -eq "Datetime") -and ($DateTaken -le (Get-Date).AddYears(60)) ) {
                                         $validatedate = Validate-date -DateTaken $DateTaken
                                         if($validatedate -eq $true){
+                                            if(($filename -like "*.Jpg") -or ($filename -like "*.Jpeg")){
                                             try{
+                                            $ErrorActionPreference = "stop"
                                             $setdatetaken = Update-ExifDateTaken -ImageFile $ImageFile -datetaken $DateTaken
                                             }
-                                            catch{$setdatetaken = "Date Taken cannot be inserted"
+                                            catch{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
                                             }
                                             if($setdatetaken -eq $true){
+                                            $setdatetakenstatus = "Date Taken $DateTaken inserted to the $filename."
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
                                                 try{
                                                     $ErrorActionPreference = "Stop"
                                         
@@ -372,7 +382,6 @@ foreach ($file in $Path){
                                                           $newlastaccessdate = "Not available"
                                                          }
                                             }
-                                        }
                                         else{
                                         $DateTaken = "No Date found from 1st step."
                                         }
@@ -381,11 +390,12 @@ foreach ($file in $Path){
                                     $DateTaken = "No Date found from 1st step."
                                     }
 
-                            }
+                            
                         }
+                            }
                         catch{
                              $DateTaken = "No Date found from 1st step."
-                        }
+                            }
                     }
                     
                     if($DateTaken -like "No Date found from*"){
@@ -400,12 +410,24 @@ foreach ($file in $Path){
                                         $DateTaken = $datefromfile
                                         $validatedate = Validate-date -DateTaken $DateTaken
                                         if($validatedate -eq $true){
+                                            if(($filename -like "*.Jpg") -or ($filename -like "*.Jpeg")){
                                             try{
+                                            $ErrorActionPreference = "stop"
                                             $setdatetaken = Update-ExifDateTaken -ImageFile $ImageFile -datetaken $DateTaken
                                             }
-                                            catch{$setdatetaken = "Date Taken cannot be inserted"
+                                            catch{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
                                             }
                                             if($setdatetaken -eq $true){
+                                            $setdatetakenstatus = "Date Taken $DateTaken inserted to the $filename."
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
                                                 try{
                                                     $ErrorActionPreference = "Stop"
                                         
@@ -438,7 +460,6 @@ foreach ($file in $Path){
                                                           $newlastaccessdate = "Not available"
                                                          }
                                             }
-                                        }
                                             else{
                                                 $DateTaken = "No Date found from 2nd step."
                                                 }
@@ -459,12 +480,24 @@ foreach ($file in $Path){
                                 }
                                         $validatedate = Validate-date -DateTaken $DateTaken
                                         if($validatedate -eq $true){
+                                            if(($filename -like "*.Jpg") -or ($filename -like "*.Jpeg")){
                                             try{
+                                            $ErrorActionPreference = "stop"
                                             $setdatetaken = Update-ExifDateTaken -ImageFile $ImageFile -datetaken $DateTaken
                                             }
-                                            catch{$setdatetaken = "Date Taken cannot be inserted"
+                                            catch{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
                                             }
                                             if($setdatetaken -eq $true){
+                                            $setdatetakenstatus = "Date Taken $DateTaken inserted to the $filename."
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
                                                 try{
                                                     $ErrorActionPreference = "Stop"
                                         
@@ -497,7 +530,6 @@ foreach ($file in $Path){
                                                           $newlastaccessdate = "Not available"
                                                          }
                                             }
-                                        }
                                     else{
                                         $DateTaken = "No Date found from 3rd step."
                                         }
@@ -517,12 +549,24 @@ foreach ($file in $Path){
                                 }
                                         $validatedate = Validate-date -DateTaken $DateTaken
                                         if($validatedate -eq $true){
+                                            if(($filename -like "*.Jpg") -or ($filename -like "*.Jpeg")){
                                             try{
+                                            $ErrorActionPreference = "stop"
                                             $setdatetaken = Update-ExifDateTaken -ImageFile $ImageFile -datetaken $DateTaken
                                             }
-                                            catch{$setdatetaken = "Date Taken cannot be inserted"
+                                            catch{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
                                             }
                                             if($setdatetaken -eq $true){
+                                            $setdatetakenstatus = "Date Taken $DateTaken inserted to the $filename."
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
                                                 try{
                                                     $ErrorActionPreference = "Stop"
                                         
@@ -555,7 +599,6 @@ foreach ($file in $Path){
                                                           $newlastaccessdate = "Not available"
                                                          }
                                             }
-                                        }
                                     else{
                                         $DateTaken = "No Date found from 4th step."
                                         }
@@ -576,12 +619,24 @@ foreach ($file in $Path){
                                 }
                                         $validatedate = Validate-date -DateTaken $DateTaken
                                         if($validatedate -eq $true){
+                                            if(($filename -like "*.Jpg") -or ($filename -like "*.Jpeg")){
                                             try{
+                                            $ErrorActionPreference = "stop"
                                             $setdatetaken = Update-ExifDateTaken -ImageFile $ImageFile -datetaken $DateTaken
                                             }
-                                            catch{$setdatetaken = "Date Taken cannot be inserted"
+                                            catch{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
                                             }
                                             if($setdatetaken -eq $true){
+                                            $setdatetakenstatus = "Date Taken $DateTaken inserted to the $filename."
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
                                                 try{
                                                     $ErrorActionPreference = "Stop"
                                         
@@ -614,7 +669,6 @@ foreach ($file in $Path){
                                                           $newlastaccessdate = "Not available"
                                                          }
                                             }
-                                        }
                                     else{
                                         $DateTaken = "No Date found from 5th step."
                                         }
@@ -635,12 +689,24 @@ foreach ($file in $Path){
                                 }
                                         $validatedate = Validate-date -DateTaken $DateTaken
                                         if($validatedate -eq $true){
+                                            if(($filename -like "*.Jpg") -or ($filename -like "*.Jpeg")){
                                             try{
+                                            $ErrorActionPreference = "stop"
                                             $setdatetaken = Update-ExifDateTaken -ImageFile $ImageFile -datetaken $DateTaken
                                             }
-                                            catch{$setdatetaken = "Date Taken cannot be inserted"
+                                            catch{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
                                             }
                                             if($setdatetaken -eq $true){
+                                            $setdatetakenstatus = "Date Taken $DateTaken inserted to the $filename."
+                                            }
+                                            else{
+                                            $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
+                                            }
                                                 try{
                                                     $ErrorActionPreference = "Stop"
                                         
@@ -673,7 +739,6 @@ foreach ($file in $Path){
                                                           $newlastaccessdate = "Not available"
                                                          }
                                             }
-                                        }
                                    else{
                                         $DateTaken = "No Date details in the name available cannot change Metadata."
                                         }
@@ -686,6 +751,7 @@ foreach ($file in $Path){
                     
                     #Last step after all steps are exhausted
                     if($DateTaken -eq "No Date details in the name available cannot change Metadata."){
+                    $setdatetakenstatus = "Date Taken $DateTaken cannot be inserted to the $filename."
                         try{
                             $ErrorActionPreference = "Stop"
                                         
@@ -746,7 +812,6 @@ foreach ($file in $Path){
                 if($oldlastaccessdate -ne $null){
                 $newlastaccessdate = $filedata.LastAccessTime = $DateTaken
                 }
-
                 }
                 catch{ 
                         $oldcreationdate = "Not available"
@@ -775,7 +840,8 @@ foreach ($file in $Path){
                                 
                                 'Old Last access date' = $oldlastaccessdate
                                 'New Last access date' = $newlastaccessdate
-                                'File Status' = $filestatus}
+                                'File Status' = $filestatus
+                                'Date Taken Inserted status' = $setdatetakenstatus}
             }
             else{
                 $newfilepath1 = New-Item -Path "$mainpath\No action taken" -Name $filepath_name -ItemType "Directory" -Force
@@ -794,7 +860,8 @@ foreach ($file in $Path){
                                 
                                 'Old Last access date' = $oldlastaccessdate
                                 'New Last access date' = $newlastaccessdate
-                                'File Status' = $filestatus}
+                                'File Status' = $filestatus
+                                'Date Taken Inserted status' = $setdatetakenstatus}
             }
             
             $Filemetadata = New-Object -TypeName PSobject -Property $gatherdata
