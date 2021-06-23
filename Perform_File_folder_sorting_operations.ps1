@@ -1,16 +1,13 @@
-﻿#Script to perform sorting of folder and delete empty folders, Script to be run second.
+#Script to perform sorting of folder and delete empty folders, Script to be run second.
 #Next Script is Copy files to unique folders.ps1
 
-
 #Removing the variables of the current powershell session.
-Remove-Variable * -ErrorAction SilentlyContinue
-
+#Remove-Variable * -ErrorAction SilentlyContinue
 Function Perform_File_folder_sorting_operations {
-param (
-    [Parameter(Mandatory=$true)][string]$takeoutfolderpath,
-    [Parameter(Mandatory=$true)][string]$name
-)
-
+    param (
+        [Parameter(Mandatory=$true)][string]$takeoutfolderpath,
+        [Parameter(Mandatory=$true)][string]$name
+    )
         Function Log-EmptyFolders {
             param(
                 [Parameter(Mandatory=$true)]$Logemptyfolders
@@ -35,13 +32,13 @@ $seperator = "------------------------------------------------------------------
 #$takeoutfolderpath = "F:\Google photos"
 
 #Create a new folder to collect Logs
-New-Item -Path "$takeoutfolderpath\$name" -Name Logs -ItemType Directory
+New-Item -Path "$takeoutfolderpath\$name" -Name "Logs" -ItemType Directory -Force -ErrorAction Stop | Out-Null
 
 #Joining the main path to find the sub folders
 $jointpath = "$takeoutfolderpath\$name"
 
 #Getting Subfolders from the path
-$takeoutfolderdetails = Get-ChildItem $jointpath\t* -Force
+$takeoutfolderdetails = Get-ChildItem $jointpath\t* -Force -Directory
 
 #Selecting the path of all the sub folder.
 $takeoutfolders = $takeoutfolderdetails | Select-Object -ExpandProperty Fullname
@@ -49,13 +46,13 @@ $takeoutfolders = $takeoutfolderdetails | Select-Object -ExpandProperty Fullname
 #Finding childfolder from each subfolders.
     foreach ($takeoutfolder in $takeoutfolders){
 
-        $subfolderdetails = Get-ChildItem -Path "$takeoutfolder\takeout\google photos\*" -Force
+        $subfolderdetails = Get-ChildItem -Path "$takeoutfolder\takeout\google photos\*" -Force -Directory
         $subfolders = $subfolderdetails | Select-Object -ExpandProperty Fullname
 
         #Getting files from each childfolder.
         foreach ($subfolder in $subfolders){
 
-        $subfolderfiles = Get-ChildItem -Path $subfolder -Force -Recurse -ErrorAction SilentlyContinue 
+        $subfolderfiles = Get-ChildItem -Path $subfolder -file -Force -Recurse -ErrorAction SilentlyContinue 
         #Fetching the count of each folder.
         $count = ($subfolderfiles | Measure-Object).Count
                 #if the count of the folder is 0 then perform the following operation.
