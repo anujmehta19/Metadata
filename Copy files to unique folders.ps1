@@ -1,53 +1,50 @@
-﻿#Script to copy files from multiple folders to unique folders, Script to be run third.
+#Script to copy files from multiple folders to unique folders, Script to be run third.
 #Next Script is Metadata_New.ps1
 
-
-Remove-Variable * -ErrorAction SilentlyContinue
+#Removing the variables of the current powershell session.
+#Remove-Variable * -ErrorAction SilentlyContinue
 
 function Copy_Files_to_unique_folder {
 
-param (
-    [Parameter(Mandatory=$true)][string]$takeoutfolderpath,
-    [Parameter(Mandatory=$true)][string]$name
+    param (
+        [Parameter(Mandatory=$true)][string]$takeoutfolderpath,
+        [Parameter(Mandatory=$true)][string]$name
     )
 
-Function Log_file_moved_details {
-    param(
-        [Parameter(Mandatory=$true)]$Log_file_moved_details
-    )
+    Function Log_file_moved_details {
+        param(
+            [Parameter(Mandatory=$true)]$Log_file_moved_details
+        )
 
-    Add-Content "$takeoutfolderpath\$name\Logs\Log_file_moved_details.txt" $Log_file_moved_details
-}
+        Add-Content "$takeoutfolderpath\$name\Logs\Log_file_moved_details.txt" $Log_file_moved_details
+    }
 
     $seperator = "-----------------------------------------------------------------------"
 
-    $folder = Get-ChildItem -Path $takeoutfolderpath
+    New-Item -Path "$takeoutfolderpath\$name" -Name "Logs" -ItemType Directory -Force -ErrorAction Stop | Out-Null
+
+    $jointpath = "$takeoutfolderpath\$name"
+
+    $folder = Get-ChildItem -Path $jointpath
 
     $folderdetails = $folder | Select-Object -Property Name, FullName
 
     $sortedfolderdetails = $folderdetails | Sort-Object -Property Name
 
-    #$sortedfolderdetails 
-
     $foldername = $folder | Select-Object -ExpandProperty Name
 
     $folderpath = $folder | Select-Object -Property FullName
-    #$folderpath.Count
 
     $foldername = $folder | Select-Object -ExpandProperty Name
-    #$foldername.count
 
     $sortedfolderpath = $folderpath | Sort-Object -Unique
-    #$sortedfolderpath.count
 
     $sortedfoldername = $foldername | Sort-Object -Unique
-    #$sortedfoldername.count
 
     foreach($name in $sortedfolderdetails){
 
-    $name
-    $nameoffolder = $name.Name
-    $pathoffolder = $name.FullName
+        $nameoffolder = $name.Name
+        $pathoffolder = $name.FullName
 
             if($foldername -contains $nameoffolder){
 
@@ -79,4 +76,4 @@ Function Log_file_moved_details {
     }
 
 }
-Copy_Files_to_unique_folder -folderpath "F:\Google photos\Anuj\t*\*\*\*"
+Copy_Files_to_unique_folder -takeoutfolderpath -name
